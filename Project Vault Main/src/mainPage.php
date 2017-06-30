@@ -1,4 +1,3 @@
 <?php
-	#Main Content
-	#Things
+	
 ?>
