@@ -25,7 +25,7 @@
 				{
 					echo "ID: ".$table[$k]["id"]."</br>";
 					echo "Name: ".$table[$k]["name"]."</br>";
-					echo "Description: ".$table[$k]["descr"]."</br>";
+					echo "Description: ".$table[$k]["description"]."</br>";
 					echo "Link: ".$table[$k]["link"]."</br>";
 					echo "</br>";
 					echo "</br>";
