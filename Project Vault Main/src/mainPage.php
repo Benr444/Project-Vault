@@ -8,7 +8,7 @@
 		<h1 align="center">Project Vault Network View</h1>
 		<script>Document.getElementById("mainP").innerHTML = sendNodeRequest(0);</script>
 		<p id="mainP">
-		
+
 		</p>
 	</body>	
 </html>
