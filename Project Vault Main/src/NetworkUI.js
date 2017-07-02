@@ -14,7 +14,6 @@ function NetworkUI()
 		//Query for related nodes of the new focus
 		
 		
-		
 		//Construct node containers for the new focus's related nodes
 		
 		//Display rearrange UI
@@ -47,20 +46,6 @@ function NetworkUI()
 	this.dispChilds = function() //
 	{
 		
-	}
-	
-	//MOVE THIS
-	this.constructNode = function(id, name, description, link, parents, siblings, childs) //Takes data off SQL server and combines it into one anonymous object
-	{
-		return {
-			"id": id,
-			"name": name,
-			"description": description,
-			"link":link,
-			"parents":parents,
-			"siblings":siblings,
-			"childs":childs
-		}
 	}
 	
 	this.sendNodeRequest = function(nodeID) //Takes a nodeID and returns the node objects from the database
