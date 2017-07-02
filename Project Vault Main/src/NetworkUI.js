@@ -56,6 +56,7 @@ function NetworkUI()
 		{
 			  if (this.readyState == 4 && this.status == 200) //When page found and reponse ready
 			  {
+				  console.log("Anonymous Node Object: " + req.responseText);
 				  pNode = JSON.parse(req.responseText); //Contains a JSON representation of the node, which we convert to a js object
 			  }
 		};

@@ -6,9 +6,13 @@
 	</head>
 	<body>
 		<h1 align="center">Project Vault Network View</h1>
-		<script>Document.getElementById("mainP").innerHTML = sendNodeRequest(0);</script>
-		<p id="mainP">
+		<p id="main">
 			If you see this text, an error has occured
 		</p>
+		<script>
+			var nUI = new NetworkUI();
+			console.log("Stringified Final Object: " + JSON.stringify(nUI.sendNodeRequest(1)));
+			//document.getElementById("main").innerHTML = JSON.stringify(sendNodeRequest(1));
+		</script>
 	</body>	
 </html>
