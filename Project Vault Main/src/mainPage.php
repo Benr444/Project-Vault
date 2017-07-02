@@ -11,8 +11,8 @@
 		</p>
 		<script>
 			var nUI = new NetworkUI();
-			console.log("Stringified Final Object: " + JSON.stringify(nUI.sendNodeRequest(1)));
-			//document.getElementById("main").innerHTML = JSON.stringify(sendNodeRequest(1));
+			//This request throws in a callback function to set the innerHTML after pulling the data
+			nUI.sendNodeRequest(1, function(node){document.getElementById("main").innerHTML = JSON.stringify(node);})
 		</script>
 	</body>	
 </html>

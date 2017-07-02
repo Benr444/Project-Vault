@@ -48,20 +48,28 @@ function NetworkUI()
 		
 	}
 	
-	this.sendNodeRequest = function(nodeID) //Takes a nodeID and returns the node objects from the database
+	this.sendNodeRequest = function(nodeID, method) //Takes a nodeID and returns the node objects from the database. Also takes a function that the ID will be passed to on completion
 	{
 		var req = new XMLHttpRequest();
-		var pNode = {}; //Requested node
+		var fetchedNode = {}; //Requested node
 		req.onreadystatechange = function()
 		{
 			  if (this.readyState == 4 && this.status == 200) //When page found and reponse ready
 			  {
 				  console.log("Anonymous Node Object: " + req.responseText);
-				  pNode = JSON.parse(req.responseText); //Contains a JSON representation of the node, which we convert to a js object
+				  fetchedNode = JSON.parse(req.responseText); //Contains a JSON representation of the node, which we convert to a js object
+				  if (method) //If a method was provided
+				  {
+					  method(fetchedNode); //Execute it
+				  }
+				  else
+				  {
+					  return fetchedNode; //Otherwise just return the node object
+				  }
 			  }
 		};
 		req.open("GET", "NodeRequest.php?id=" + nodeID, true);
 		req.send();
-		return pNode;
+
 	}
 }
