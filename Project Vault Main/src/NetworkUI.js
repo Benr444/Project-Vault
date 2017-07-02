@@ -12,6 +12,7 @@ function NetworkUI()
 		this.focus = NCon; //Store the object for reference
 		
 		//Query for related nodes of the new focus
+		this.focus.parents.length	//Grab the node ID's for related nodes
 		
 		//Construct node containers for the new focus's related nodes
 		
