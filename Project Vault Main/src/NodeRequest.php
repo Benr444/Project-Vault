@@ -16,11 +16,14 @@
 	$response = $connection->query($query);
 	$entry = $response->fetch_assoc(); //Need only be called once, since only one row will be returned.
 	$nodeString = "{ \"id\": ".$entry["id"]
-	.", \"desc\": \"".$entry["description"]
+	.", \"name\": \"".$entry["name"]
+	."\", \"description\": \"".$entry["description"]
 	."\", \"link\": \"".$entry["link"]
 	."\", \"parents\": ".$entry["parents"]
 	.", \"siblings\": ".$entry["siblings"]
-	.", \"childs\": ".$entry["childs"]." }"; //String created in JSON format holding the anonymous node of the given ID
+	.", \"childs\": ".$entry["childs"]
+	." ".$entry["info"]
+	." }"; //String created in JSON format holding the anonymous node of the given ID
 	mysqli_close($connection);
 	echo $nodeString
 ?>

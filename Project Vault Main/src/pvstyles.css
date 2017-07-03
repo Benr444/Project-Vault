@@ -1,0 +1,21 @@
+@CHARSET "ISO-8859-1";
+
+#networkviewport /*Styling for the viewport to network view*/
+{
+    font-family: "Times New Roman";
+    font-size: 20px;
+	border: 2px solid grey;
+    width: 100%;
+    height: 80%;
+    margin-top: 0%;
+    outline: 2px solid black;
+    background-color: white;
+}
+
+.node /*Style Sheet for Nodes*/
+{
+	width: 15%;
+	height: 5%;
+	border: 2px solid #99ccff;
+	font-size: .8em;
+}

@@ -6,15 +6,16 @@
  * A node only exists as a JSON object that becomes associated with a NodeContainer
  */
 
-//The above enumerator defines what types nodes can be. This changes display options for the container
-this.nodeTypes = {PERSON : 0, ORG : 1, EVENT : 2};
+
+//This enumerator defines what types nodes can be. This changes display options for the container
+var nodeTypes = {UNTYPED : 0, PERSON : 1, ORG : 2, EVENT : 3};
 
 
 //Constructor for nodeContainer
 function NodeContainer(node)
 {
-	this.node = node; //The PNode associated with this container
-	
+	this.node = node; //The node object associated with this container
+	this.type = nodeTypes.UNTYPED;
 	
 	this.width;
 	this.height;
