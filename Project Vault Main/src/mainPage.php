@@ -15,11 +15,6 @@
 		
 		<div id="networkviewport">
 		
-			<div class="node" id="1">
-				
-			</div>
-			
-		
 		
 		
 		
@@ -29,9 +24,23 @@
 		</div>
 		
 		<script>
-			var nUI = new NetworkUI();
-			//This request throws in a callback function to set the innerHTML after pulling the data
-			nUI.sendNodeRequest(1, function(node){document.getElementById("1").innerHTML = node.name})
+			var nUI = new NetworkUI(0); //start the UI centered at node 0
+			
+			$(document).ready //On doc loaded
+			(
+				function()
+				{
+					$(".node").click //When any node is clicked
+					(
+						function()
+						{
+							//Pass a node container to the handler that is accessed by the handler's storage of all handers and the ID fetched
+							nUI.setFocus(nUI.nodeContainers[$(this).attr("id")]); //Set that node as the focus. 
+							//Because you can only click on a loaded node, the above line is never out of bounds
+						}
+					)
+				}
+			);
 		</script>
 	</body>	
 </html>

@@ -5,36 +5,45 @@
 //Constructor
 function NetworkUI(baseNodeID) //Network UI's have to be created at a certain node
 {
-	this.parents = [];
-	this.siblings = [];
-	this.childs = [];
+	this.nodeContainers = []; //This array contains all node containers currently being displayed by the ui
+	//0 is focus
+	//Parents are 1 -> 1+nCon.node.parents.length
+	//Siblings are 1 + nCon.node.parents.length -> 2 + nCon.node.parents.length + nCon.node.siblings.length
+	//Siblings are 2 + nCon.node.parents.length + nCon.node.siblings.length -> 3 + nCon.node.parents.length + nCon.node.siblings.length + nCon.node.childs.length
 	
-	this.focus = new NodeContainer(this.sendNodeRequest(baseNodeID)); //Contains NodeContainer currently at focus. Initialized at UI construction
-	this.setFocus(this.focus); //Sets focus on the initial focus
+	this.nodeContainers[0] = new NodeContainer(this.sendNodeRequest(baseNodeID)); //Contains NodeContainer currently at focus. Initialized at UI construction. The focus is always at the id of zero
 	
-	this.setFocus = function(NCon) //Called when a node is clicked. Args: NodeContainer clicked on
+	this.setFocus = function(nCon) //Called when a node is clicked. Args: NodeContainer clicked on
 	{
-		this.focus = NCon; //Store the object for reference
+		this.nodeContainers[0] = nCon; //Store the object for reference
 		
 		//For each of the new focus's related nodes, create a new node container and store it in the respective array
-		for (var i = 0; i < NCon.node.parents.length; i++)
+		for (var i = 0; i < nCon.node.parents.length; i++)
 		{
-			this.sendNodeRequest(this.focus.node.parents[i], function(node){this.parents.push(new NodeContainer(node));}); 
+			this.sendNodeRequest(this.focus.node.parents[i], function(node){this.nodeContainers.push(new NodeContainer(node));}); 
 		}
-		for (var i = 0; i < NCon.node.siblings.length; i++)
+		for (var j = 0; j < nCon.node.siblings.length; j++)
 		{
-			this.sendNodeRequest(this.focus.node.siblings[i], function(node){this.siblings.push(new NodeContainer(node));});
+			this.sendNodeRequest(this.focus.node.siblings[j], function(node){this.nodeContainers.push(new NodeContainer(node));});
 		}
-		for (var i = 0; i < NCon.node.childs.length; i++)
+		for (var k = 0; k < nCon.node.childs.length; k++)
 		{
-			this.sendNodeRequest(this.focus.node.childs[i], function(node){this.childs.push(new NodeContainer(node));}); 
+			this.sendNodeRequest(this.focus.node.childs[k], function(node){this.nodeContainers.push(new NodeContainer(node));}); 
 		}
 
-		//Display rearrange UI
+		//Add containers to UI
+		for (var l = 0; l < nodeContainers.length; l++)
+		{
+			//DELETE OLD STUFF
+			document.getElementById("networkviewport").innerHTML = document.getElementById("networkviewport").innerHTML + nodeContainers[l].html; //Append current nodes into document 
+		}
+		
+		//Display/rearrange UI to fit new focus
 		this.moveFocus();
-		this.dispParents();
-		this.dispSiblings();
-		this.dispChilds();
+		this.moveParents();
+		this.moveSiblings();
+		this.moveChilds();
+		this.update(); //Put changes into effect
 	}
 	
 	this.setNodeSize = function(deviceInfo) //Fetches the right size for each node to display at
@@ -42,24 +51,36 @@ function NetworkUI(baseNodeID) //Network UI's have to be created at a certain no
 		
 	}
 	
-	this.moveFocus = function() //
+	this.moveFocus = function() //Puts focus at center of screen
+	{
+		this.nodeContainers[0].style = this.nodeContainers[0].style + " margin: \"auto\"";
+	}
+	
+	this.moveParents = function() //
 	{
 		
 	}
 	
-	this.dispParents = function() //
+	this.moveSiblings = function() //
 	{
 		
 	}
 	
-	this.dispSiblings = function() //
+	this.moveChilds = function() //
 	{
 		
 	}
 	
-	this.dispChilds = function() //
+	this.update = function() //Updates the HTML elements of the page
 	{
+		var contents = "";
 		
+		for (var h = 0; h < this.nodeContainers.length; h++)
+		{
+			contents = contents + this.nodeContainers[h].html; //Refreshes the contents of each node
+		}
+		
+		document.getElementById("networkviewport").innerHTML = contents; //Clear out what exists and put in updated info
 	}
 	
 	this.sendNodeRequest = function(nodeID, method) //Takes a nodeID and returns the node objects from the database. Also takes a function that the ID will be passed to on completion
