@@ -22,7 +22,7 @@
 	."\", \"parents\": ".$entry["parents"]
 	.", \"siblings\": ".$entry["siblings"]
 	.", \"childs\": ".$entry["childs"]
-	." ".$entry["info"]
+	.", ".$entry["info"]
 	." }"; //String created in JSON format holding the anonymous node of the given ID
 	mysqli_close($connection);
 	echo $nodeString

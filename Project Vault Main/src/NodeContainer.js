@@ -18,6 +18,8 @@ function NodeContainer(node)
 {
 	this.node = node; //The node object associated with this container
 	
+	console.log("New Node Constructed! JSON: " + JSON.stringify(this.node));
+	
 	this.width;
 	this.height;
 	this.x = 0; //Upper-Left Coord

@@ -1,41 +1,34 @@
-/* The networkUI controls display of nodeContainers within the network view of ProjectHub
+/* The networkUI controls display of nodeCons within the network view of ProjectHub
  * 
  */ 
 
 //Constructor
 function NetworkUI(baseNodeID) //Network UI's have to be created at a certain node
 {
-	this.nodeContainers = []; //This array contains all node containers currently being displayed by the ui
-	//0 is focus
-	//Parents are 1 -> 1+nCon.node.parents.length
-	//Siblings are 1 + nCon.node.parents.length -> 2 + nCon.node.parents.length + nCon.node.siblings.length
-	//Siblings are 2 + nCon.node.parents.length + nCon.node.siblings.length -> 3 + nCon.node.parents.length + nCon.node.siblings.length + nCon.node.childs.length
+	this.nodeCons = {}; //This object contains all node containers currently being displayed by the ui
+	this.nodeCon.focus = ""; //Intialize focus property
 	
-	this.nodeContainers[0] = new NodeContainer(this.sendNodeRequest(baseNodeID)); //Contains NodeContainer currently at focus. Initialized at UI construction. The focus is always at the id of zero
+	var self = this; //Used to access parent variables by child functions
 	
+	//See bottom for on-construct code
 	this.setFocus = function(nCon) //Called when a node is clicked. Args: NodeContainer clicked on
 	{
-		this.nodeContainers[0] = nCon; //Store the object for reference
+		this.nodeCons.focus = nCon; //Store the object for reference
 		
-		//For each of the new focus's related nodes, create a new node container and store it in the respective array
+		//For each of the new focus's related nodes, create a new node container and store it at its proper index int he nodeCons object
 		for (var i = 0; i < nCon.node.parents.length; i++)
 		{
-			this.sendNodeRequest(this.focus.node.parents[i], function(node){this.nodeContainers.push(new NodeContainer(node));}); 
+			this.sendNodeRequest(this.focus.node.parents[i], function(node){this.nodeCons[node.id] = new NodeContainer(node);}); 
 		}
 		for (var j = 0; j < nCon.node.siblings.length; j++)
 		{
-			this.sendNodeRequest(this.focus.node.siblings[j], function(node){this.nodeContainers.push(new NodeContainer(node));});
+			this.sendNodeRequest(this.focus.node.siblings[j], function(node){this.nodeCons[node.id] = new NodeContainer(node);}); 
 		}
+		this.printNodeCons() //TEMP
 		for (var k = 0; k < nCon.node.childs.length; k++)
 		{
-			this.sendNodeRequest(this.focus.node.childs[k], function(node){this.nodeContainers.push(new NodeContainer(node));}); 
-		}
-
-		//Add containers to UI
-		for (var l = 0; l < nodeContainers.length; l++)
-		{
-			//DELETE OLD STUFF
-			document.getElementById("networkviewport").innerHTML = document.getElementById("networkviewport").innerHTML + nodeContainers[l].html; //Append current nodes into document 
+			console.log("Filling nodeCons: index:" + k);
+			this.sendNodeRequest(this.focus.node.childs[k], function(node){this.nodeCons[node.id] = new NodeContainer(node);}); 
 		}
 		
 		//Display/rearrange UI to fit new focus
@@ -53,7 +46,7 @@ function NetworkUI(baseNodeID) //Network UI's have to be created at a certain no
 	
 	this.moveFocus = function() //Puts focus at center of screen
 	{
-		this.nodeContainers[0].style = this.nodeContainers[0].style + " margin: \"auto\"";
+		this.nodeCons.focus.style = this.nodeCons.focus.style + " margin: \"auto\"";
 	}
 	
 	this.moveParents = function() //
@@ -71,13 +64,23 @@ function NetworkUI(baseNodeID) //Network UI's have to be created at a certain no
 		
 	}
 	
+	this.printNodeCons = function() //Prints the nodeCons array
+	{
+		console.log("Network UI nodeCons: ");
+		for (var g in nodeCons)
+		{
+			console.log("Node at " + g + ": " + JSON.stringify(this.nodeCons[g]))
+		}
+		
+	}
+	
 	this.update = function() //Updates the HTML elements of the page
 	{
 		var contents = "";
 		
-		for (var h = 0; h < this.nodeContainers.length; h++)
+		for (var h in nodeCons)
 		{
-			contents = contents + this.nodeContainers[h].html; //Refreshes the contents of each node
+			contents = contents + this.nodeCons[h].html; //Refreshes the contents of each node
 		}
 		
 		document.getElementById("networkviewport").innerHTML = contents; //Clear out what exists and put in updated info
@@ -107,4 +110,11 @@ function NetworkUI(baseNodeID) //Network UI's have to be created at a certain no
 		req.send();
 
 	}
+	
+	this.sendNodeRequest(baseNodeID, function(node)
+		{
+			self.nodeCons[0] = new NodeContainer(node); //Store this node container into the containment array
+			self.setFocus(self.nodeCons[0]); //Then focus on it after complete return of information
+		}); 
+	
 }
