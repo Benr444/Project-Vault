@@ -5,37 +5,35 @@
 //Constructor
 function NetworkUI(baseNodeID) //Network UI's have to be created at a certain node
 {
-	this.nodeContainers = []; //This array contains all node containers currently being displayed by the ui
+	this.nodeCons = []; //This array contains all node containers currently being displayed by the ui
 	//0 is focus
 	//Parents are 1 -> 1+nCon.node.parents.length
 	//Siblings are 1 + nCon.node.parents.length -> 2 + nCon.node.parents.length + nCon.node.siblings.length
 	//Siblings are 2 + nCon.node.parents.length + nCon.node.siblings.length -> 3 + nCon.node.parents.length + nCon.node.siblings.length + nCon.node.childs.length
 	
-	this.nodeContainers[0] = new NodeContainer(this.sendNodeRequest(baseNodeID)); //Contains NodeContainer currently at focus. Initialized at UI construction. The focus is always at the id of zero
-	
 	this.setFocus = function(nCon) //Called when a node is clicked. Args: NodeContainer clicked on
 	{
-		this.nodeContainers[0] = nCon; //Store the object for reference
+		this.nodeCons[0] = nCon; //Store the object for reference
 		
 		//For each of the new focus's related nodes, create a new node container and store it in the respective array
 		for (var i = 0; i < nCon.node.parents.length; i++)
 		{
-			this.sendNodeRequest(this.focus.node.parents[i], function(node){this.nodeContainers.push(new NodeContainer(node));}); 
+			this.sendNodeRequest(this.focus.node.parents[i], function(node){this.nodeCons.push(new NodeContainer(node));}); 
 		}
 		for (var j = 0; j < nCon.node.siblings.length; j++)
 		{
-			this.sendNodeRequest(this.focus.node.siblings[j], function(node){this.nodeContainers.push(new NodeContainer(node));});
+			this.sendNodeRequest(this.focus.node.siblings[j], function(node){this.nodeCons.push(new NodeContainer(node));});
 		}
 		for (var k = 0; k < nCon.node.childs.length; k++)
 		{
-			this.sendNodeRequest(this.focus.node.childs[k], function(node){this.nodeContainers.push(new NodeContainer(node));}); 
+			this.sendNodeRequest(this.focus.node.childs[k], function(node){this.nodeCons.push(new NodeContainer(node));}); 
 		}
 
 		//Add containers to UI
-		for (var l = 0; l < nodeContainers.length; l++)
+		for (var l = 0; l < nodeCons.length; l++)
 		{
 			//DELETE OLD STUFF
-			document.getElementById("networkviewport").innerHTML = document.getElementById("networkviewport").innerHTML + nodeContainers[l].html; //Append current nodes into document 
+			document.getElementById("networkviewport").innerHTML = document.getElementById("networkviewport").innerHTML + nodeCons[l].html; //Append current nodes into document 
 		}
 		
 		//Display/rearrange UI to fit new focus
@@ -53,7 +51,7 @@ function NetworkUI(baseNodeID) //Network UI's have to be created at a certain no
 	
 	this.moveFocus = function() //Puts focus at center of screen
 	{
-		this.nodeContainers[0].style = this.nodeContainers[0].style + " margin: \"auto\"";
+		this.nodeCons[0].style = this.nodeCons[0].style + " margin: \"auto\"";
 	}
 	
 	this.moveParents = function() //
@@ -75,12 +73,23 @@ function NetworkUI(baseNodeID) //Network UI's have to be created at a certain no
 	{
 		var contents = "";
 		
-		for (var h = 0; h < this.nodeContainers.length; h++)
+		for (var h = 0; h < this.nodeCons.length; h++)
 		{
-			contents = contents + this.nodeContainers[h].html; //Refreshes the contents of each node
+			contents = contents + this.nodeCons[h].html; //Refreshes the contents of each node
 		}
 		
 		document.getElementById("networkviewport").innerHTML = contents; //Clear out what exists and put in updated info
+	}
+	
+	this.getNodeByID = function(id) //Returns the stored node with the given ID
+	{
+		for (var j = 0; j < nodeCons.length; j++)
+		{
+			if (nodeCons[j].node.id == id)
+			{
+				return nodeCons[j];
+			}
+		}
 	}
 	
 	this.sendNodeRequest = function(nodeID, method) //Takes a nodeID and returns the node objects from the database. Also takes a function that the ID will be passed to on completion
@@ -105,6 +114,8 @@ function NetworkUI(baseNodeID) //Network UI's have to be created at a certain no
 		};
 		req.open("GET", "NodeRequest.php?id=" + nodeID, true);
 		req.send();
-
 	}
+	
+	this.nodeCons[0] = new NodeContainer(this.sendNodeRequest(baseNodeID)); //Contains NodeContainer currently at focus. Initialized at UI construction. The focus is always at the id of zero. Must be called down here
+	
 }

@@ -24,7 +24,7 @@
 		</div>
 		
 		<script>
-			var nUI = new NetworkUI(0); //start the UI centered at node 0
+			var nUI = new NetworkUI(1); //start the UI centered at node 0
 			
 			$(document).ready //On doc loaded
 			(
@@ -35,7 +35,7 @@
 						function()
 						{
 							//Pass a node container to the handler that is accessed by the handler's storage of all handers and the ID fetched
-							nUI.setFocus(nUI.nodeContainers[$(this).attr("id")]); //Set that node as the focus. 
+							nUI.setFocus(nUI.getNodeByID($(this).attr("id"))); //Set that node as the focus. 
 							//Because you can only click on a loaded node, the above line is never out of bounds
 						}
 					)
