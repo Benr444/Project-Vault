@@ -6,7 +6,7 @@
 function NetworkUI(baseNodeID) //Network UI's have to be created at a certain node
 {
 	this.nodeCons = {}; //This object contains all node containers currently being displayed by the ui
-	this.nodeCon.focus = ""; //Intialize focus property
+	this.nodeCons.focus = ""; //Intialize focus property
 	
 	var self = this; //Used to access parent variables by child functions
 	
@@ -24,7 +24,9 @@ function NetworkUI(baseNodeID) //Network UI's have to be created at a certain no
 		{
 			this.sendNodeRequest(this.focus.node.siblings[j], function(node){this.nodeCons[node.id] = new NodeContainer(node);}); 
 		}
+		
 		this.printNodeCons() //TEMP
+		
 		for (var k = 0; k < nCon.node.childs.length; k++)
 		{
 			console.log("Filling nodeCons: index:" + k);
@@ -67,7 +69,7 @@ function NetworkUI(baseNodeID) //Network UI's have to be created at a certain no
 	this.printNodeCons = function() //Prints the nodeCons array
 	{
 		console.log("Network UI nodeCons: ");
-		for (var g in nodeCons)
+		for (var g in this.nodeCons)
 		{
 			console.log("Node at " + g + ": " + JSON.stringify(this.nodeCons[g]))
 		}
