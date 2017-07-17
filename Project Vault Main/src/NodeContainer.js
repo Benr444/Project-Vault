@@ -25,12 +25,16 @@ function NodeContainer(node)
 		
 	//QUESTION: USE JQUERY TO HANDLE STYLES?
 	this.style = ""; //Additional non-generic styles to add onto this element like position
-	this.contents = ""; //Actual text of the node
-	this.html = "<div class=\"node\" style=\"" + this.style + "\" id=\"" + this.node.id + "\">" + this.contents + "</div>";
+	this.contents = this.node.name; //Actual text of the node
+	this.getHTML = function()
+	{
+		return "<div class=\"node\" style=\"" + this.style + "\" id=\"" + this.node.id + "\">" + this.contents + "</div>";
+	}
 	
-	this.delete = function() 
+	this.del = function() 
 	{
 		this.html = "";
 	}
+	
 }
 
