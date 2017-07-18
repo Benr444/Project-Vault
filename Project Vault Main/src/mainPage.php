@@ -26,7 +26,7 @@
 		</div>
 		
 		<script>
-			var nUI = new NetworkUI(1); //start the UI centered at node 1
+			var nUI = new NetworkUI(0); //start the UI centered at node 1
 			
 			$(document).ready //On doc loaded
 			(
