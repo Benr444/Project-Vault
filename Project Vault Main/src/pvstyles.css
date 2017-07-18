@@ -1,6 +1,6 @@
 @CHARSET "ISO-8859-1";
 
-#networkviewport /*Styling for the viewport to network view*/
+#networkviewport /*Styling for the viewport to network view and the node portal*/
 {
     font-family: "Times New Roman";
     font-size: 20px;
@@ -8,6 +8,15 @@
     width: 100%;
     height: 80%;
     margin-top: 0%;
+    outline: 2px solid black;
+    background-color: white;
+}
+
+#nodeportal /*Styling for the viewport to submit node data*/
+{
+    font-family: "Times New Roman";
+    font-size: 20px;
+	border: 2px solid grey;
     outline: 2px solid black;
     background-color: white;
 }

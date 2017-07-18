@@ -29,8 +29,11 @@ function NetworkUI(baseNodeID) //Network UI's have to be created at a certain no
 		}
 		for (var k = 0; k < nCon.node.childs.length; k++)
 		{
-			this.sendNodeRequest(this.nodeCons[0].node.childs[k], function(node){console.log("child:: " + JSON.stringify(new NodeContainer(node))); self.nodeCons.push(new NodeContainer(node));}); 
+			console.log("childs length: " + nCon.node.childs.length);
+			console.log("child ID being requested: " + this.nodeCons[0].node.childs[k]);
+			this.sendNodeRequest(this.nodeCons[0].node.childs[k], function(node){self.nodeCons.push(new NodeContainer(node));}); 
 		}
+		//self.nodeCons.push(new NodeContainer({}))
 		console.log("Childs: " + JSON.stringify(this.nodeCons[1]));
 		
 		//Display/rearrange UI to fit new focus

@@ -12,7 +12,7 @@
 	{
 		die("Connection Failed: " . $connection->connect_error);
 	}
-	$query = "SELECT * from nodes WHERE id = ".$_GET["id"]; //Select all entries with the given ID. Will only ever return one.
+	$query = "SELECT * FROM nodes WHERE id = ".$_GET["id"]; //Select all entries with the given ID. Will only ever return one.
 	$response = $connection->query($query);
 	$entry = $response->fetch_assoc(); //Need only be called once, since only one row will be returned.
 	$nodeString = "{ \"id\": ".$entry["id"]
