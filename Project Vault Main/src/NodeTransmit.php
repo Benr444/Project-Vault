@@ -1,4 +1,9 @@
 <?php
+	/*
+	 * NOTE: Please set up this transmitter so that when you assign a parent that parent node sets the new node as a child
+	 * create way to add another related node
+	 */
+
 	$servername = "localhost";
 	$user = "sqlUser";
 	$pass = "uwrZWDSddWRVMhbZ";
@@ -21,7 +26,7 @@
 	//Mash together all the form input data into a new row
 	$query = "INSERT INTO nodes (id, name, description, link, parents, siblings, childs, type, email, programs, leader, submitter)"; //Info is left out
 	$query = $query." VALUES ('".($maxID + 1)."', '".$_POST["name"]."', '"; 
-	$query = $query.$_POST["description"]."', '".$_POST["link"]."', '".$_POST["parents"]."', '".$_POST["siblings"]."', '".$_POST["childs"]."', '"; //Note that 'info' is left out
+	$query = $query.$_POST["description"]."', '".$_POST["link"]."', '[".$_POST["parents"]."]', '[".$_POST["siblings"]."]', '[".$_POST["childs"]."]', '"; //Note that 'info' is left out
 	$query = $query.$_POST["type"]."', '".$_POST["email"]."', '".$_POST["programs"]."', '".$_POST["leader"]."', '".$_POST["submitter"]."')";
 	
 	if ($connection->query($query) == true)

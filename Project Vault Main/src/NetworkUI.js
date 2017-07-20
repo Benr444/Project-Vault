@@ -104,6 +104,7 @@ function NetworkUI(baseNodeID) //Network UI's have to be created at a certain no
 		{
 			  if (this.readyState == 4 && this.status == 200) //When page found and reponse ready
 			  {
+				  console.log("RESPONSE DATA: " + req.responseText);
 				  fetchedNode = JSON.parse(req.responseText); //Contains a JSON representation of the node, which we convert to a js object
 				  if (method) //If a method was provided
 				  {
