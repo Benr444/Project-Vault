@@ -9,7 +9,7 @@ function NetworkUI(baseNodeID) //Network UI's have to be created at a certain no
 	//0 is focus
 	//Parents are 1 -> 1+nCon.node.parents.length
 	//Siblings are 1 + nCon.node.parents.length -> 2 + nCon.node.parents.length + nCon.node.siblings.length
-	//Siblings are 2 + nCon.node.parents.length + nCon.node.siblings.length -> 3 + nCon.node.parents.length + nCon.node.siblings.length + nCon.node.childs.length
+	
 	var self = this; //Variable for accessing these functions in callbacks
 	
 	this.setFocus = function(nCon) //Called when a node is clicked. Args: NodeContainer clicked on
@@ -29,20 +29,20 @@ function NetworkUI(baseNodeID) //Network UI's have to be created at a certain no
 		}
 		for (var k = 0; k < nCon.node.childs.length; k++)
 		{
-			console.log("childs length: " + nCon.node.childs.length);
-			console.log("child ID being requested: " + this.nodeCons[0].node.childs[k]);
 			this.sendNodeRequest(this.nodeCons[0].node.childs[k], function(node){self.nodeCons.push(new NodeContainer(node));}); 
 		}
-		//self.nodeCons.push(new NodeContainer({}))
-		console.log("Childs: " + JSON.stringify(this.nodeCons[1]));
 		
 		//Display/rearrange UI to fit new focus
-		this.moveFocus();
-		this.moveParents();
-		this.moveSiblings();
-		this.moveChilds();
-		
-		this.update(); //Put changes into effect
+		setTimeout(function()
+		{
+			console.log("Node Containers[] length: " + self.nodeCons.length);
+			self.moveFocus();
+			self.moveParents();
+			self.moveSiblings();
+			self.moveChilds();
+			
+			self.update(); //Put changes into effect
+		}, 500); //Execute the above after a half-second delay
 	}
 	
 	this.moveFocus = function()
@@ -51,18 +51,25 @@ function NetworkUI(baseNodeID) //Network UI's have to be created at a certain no
 	}
 	this.moveParents = function()
 	{
-		for (var h = 1; h <= 1 + this.nodeCons[0].node.parents.length; h++) //For each parent node
+		for (var h = 1; h <= this.nodeCons[0].node.parents.length; h++) //For each parent node
 		{
-			//this.nodeCons[h].style += "float:left;";
+			this.nodeCons[h].style += "float:left;"; //Move it to the left
 		}
 	}
 	this.moveSiblings = function()
 	{
-		
+		for (var h = 1 + this.nodeCons[0].node.parents.length; h <= this.nodeCons[0].node.parents.length + this.nodeCons[0].node.siblings.length; h++) //For each sibling node
+		{
+			this.nodeCons[h].style += "float:center;"; //Move it to the center
+		}
 	}
 	this.moveChilds = function()
 	{
-		
+		for (var h = 1 + this.nodeCons[0].node.parents.length + this.nodeCons[0].node.siblings.length; h <= this.nodeCons[0].node.parents.length + this.nodeCons[0].node.siblings.length + this.nodeCons[0].node.childs.length; h++) //For each child node
+		{
+			console.log("movechild index: " + h);
+			this.nodeCons[h].style += "float:right;"; //Move it to the right
+		}
 	}
 	
 	this.setNodeSize = function(deviceInfo) //Fetches the right size for each node to display at
